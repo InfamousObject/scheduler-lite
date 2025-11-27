@@ -118,6 +118,45 @@ DATABASE_PATH=database/caregivers.db
 CORS_ORIGINS=*
 ```
 
+## Testing
+
+### Run Phase 1 Test Suite
+
+A comprehensive test suite is included to verify all Phase 1 components:
+
+```bash
+# Ensure virtual environment is activated
+source venv/bin/activate
+
+# Run the test suite
+python test_phase1.py
+```
+
+The test suite verifies:
+- ✓ Project structure (files and directories)
+- ✓ Configuration module
+- ✓ Flask app import and routes
+- ✓ PWA manifest validation
+- ✓ Service worker functionality
+- ✓ Live Flask endpoints (spins up test server)
+
+**Expected output:** All tests should pass (100%)
+
+### Manual Testing
+
+You can also manually test the Flask app:
+
+```bash
+source venv/bin/activate
+python app.py
+```
+
+Then visit:
+- Main page: `http://localhost:5000`
+- Health check: `http://localhost:5000/health`
+- PWA Manifest: `http://localhost:5000/manifest.json`
+- Service Worker: `http://localhost:5000/service-worker.js`
+
 ## Development Phases
 
 See [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) for detailed development plan.
