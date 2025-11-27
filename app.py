@@ -1,12 +1,16 @@
 from flask import Flask, render_template, send_from_directory
 from flask_cors import CORS
 from config import Config
+from api.routes import api
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
 # Enable CORS
 CORS(app, origins=app.config['CORS_ORIGINS'])
+
+# Register API blueprint
+app.register_blueprint(api)
 
 
 @app.route('/')

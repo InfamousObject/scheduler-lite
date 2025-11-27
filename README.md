@@ -160,6 +160,26 @@ The test suite verifies:
 
 **Expected output:** All tests should pass (100%)
 
+### Run Phase 3 Test Suite
+
+Test the backend logic and API endpoints:
+
+```bash
+source venv/bin/activate
+python test_phase3.py
+```
+
+The test suite verifies:
+- ✓ Distance calculations (Haversine formula)
+- ✓ Radius filtering and sorting
+- ✓ Time overlap and conflict detection
+- ✓ Weekly hours calculation
+- ✓ Caregiver matching algorithm (full coverage + overtime)
+- ✓ Result formatting
+- ✓ API endpoints and error handling
+
+**Expected output:** All tests should pass (100%)
+
 ### Seed Database with Mock Data
 
 Generate sample caregiver data:
@@ -207,10 +227,13 @@ See [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) for detailed development plan.
 - CRUD operations for caregivers
 - JSON serialization for unavailable slots
 
-### Phase 3: Backend Logic & API
-- Distance calculation (Haversine formula)
-- Availability matching logic
-- API endpoints
+### Phase 3: Backend Logic & API ✅ COMPLETED
+- Haversine distance calculation (accurate to ~0.01%)
+- Radius filtering (15-mile default, configurable)
+- Time overlap and conflict detection
+- Weekly hours auto-calculation
+- Caregiver matching algorithm (full coverage + overtime)
+- REST API endpoints with validation and error handling
 
 ### Phase 4: Frontend Development
 - Mobile-responsive UI
@@ -242,27 +265,93 @@ See [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) for detailed development plan.
 ## API Endpoints
 
 ### POST `/api/find-caregivers`
-Find caregivers near a location
+Find caregivers near a location with matching availability.
 
 **Request:**
 ```json
 {
-  "latitude": 39.7817,
-  "longitude": -89.6501,
+  "latitude": 32.7157,
+  "longitude": -117.1611,
   "required_days": ["Monday", "Wednesday", "Friday"],
   "start_time": "08:00",
   "end_time": "16:00",
-  "weekly_hours": 24
+  "weekly_hours": 24  // Optional - auto-calculated if omitted
 }
 ```
 
 **Response:**
 ```json
 {
-  "full_coverage": [...],
-  "overtime_coverage": [...]
+  "full_coverage": [
+    {
+      "id": 1,
+      "name": "Michael Harris",
+      "address": "6672 Coast Hwy, El Cajon, CA",
+      "distance": 3.25,
+      "current_weekly_hours": 8,
+      "desired_weekly_hours": 40,
+      "available_hours": 32
+    }
+  ],
+  "overtime_coverage": [
+    {
+      "id": 5,
+      "name": "Sarah Johnson",
+      "address": "1234 Harbor Dr, San Diego, CA",
+      "distance": 5.8,
+      "current_weekly_hours": 38,
+      "desired_weekly_hours": 40,
+      "available_hours": 2,
+      "overtime_needed": 22
+    }
+  ],
+  "search_params": {
+    "latitude": 32.7157,
+    "longitude": -117.1611,
+    "required_days": ["Monday", "Wednesday", "Friday"],
+    "start_time": "08:00",
+    "end_time": "16:00",
+    "weekly_hours": 24,
+    "search_radius_miles": 15
+  },
+  "total_found": 3
 }
 ```
+
+**Errors:**
+- `400`: Missing or invalid parameters
+- `500`: Server error
+
+### GET `/api/caregivers`
+Get all caregivers (for debugging/testing).
+
+**Response:**
+```json
+{
+  "caregivers": [...],
+  "total": 18
+}
+```
+
+### GET `/api/caregiver/<id>`
+Get a specific caregiver by ID.
+
+**Response:**
+```json
+{
+  "id": 1,
+  "name": "Michael Harris",
+  "address": "6672 Coast Hwy, El Cajon, CA",
+  "latitude": 32.727358,
+  "longitude": -117.106911,
+  "desired_weekly_hours": 40,
+  "current_weekly_hours": 8,
+  "unavailable_slots": [...]
+}
+```
+
+**Errors:**
+- `404`: Caregiver not found
 
 ## PWA Installation
 
