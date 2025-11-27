@@ -15,12 +15,125 @@
     <div class="container">
         <header>
             <h1>Caregiver Finder</h1>
-            <p>Find available caregivers near you</p>
+            <p class="subtitle">Find available caregivers near your location</p>
         </header>
 
-        <main>
-            <p>Application loading...</p>
+        <main id="app">
+            <!-- Search Form -->
+            <section class="search-form" id="searchForm">
+                <h2>Shift Requirements</h2>
+
+                <form id="caregiverSearchForm">
+                    <!-- Days Selection -->
+                    <div class="form-group">
+                        <label class="form-label">Days Needed</label>
+                        <div class="days-grid">
+                            <label class="day-checkbox">
+                                <input type="checkbox" name="day" value="Monday">
+                                <span>Mon</span>
+                            </label>
+                            <label class="day-checkbox">
+                                <input type="checkbox" name="day" value="Tuesday">
+                                <span>Tue</span>
+                            </label>
+                            <label class="day-checkbox">
+                                <input type="checkbox" name="day" value="Wednesday">
+                                <span>Wed</span>
+                            </label>
+                            <label class="day-checkbox">
+                                <input type="checkbox" name="day" value="Thursday">
+                                <span>Thu</span>
+                            </label>
+                            <label class="day-checkbox">
+                                <input type="checkbox" name="day" value="Friday">
+                                <span>Fri</span>
+                            </label>
+                            <label class="day-checkbox">
+                                <input type="checkbox" name="day" value="Saturday">
+                                <span>Sat</span>
+                            </label>
+                            <label class="day-checkbox">
+                                <input type="checkbox" name="day" value="Sunday">
+                                <span>Sun</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Time Range -->
+                    <div class="form-group">
+                        <label class="form-label" for="startTime">Start Time</label>
+                        <input type="time" id="startTime" name="startTime" class="form-input" required value="08:00">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="endTime">End Time</label>
+                        <input type="time" id="endTime" name="endTime" class="form-input" required value="16:00">
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary" id="searchBtn">
+                        <span class="btn-text">Find Caregivers</span>
+                        <span class="btn-icon">🔍</span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Loading State -->
+            <section class="loading" id="loadingState" style="display: none;">
+                <div class="spinner"></div>
+                <p>Finding caregivers near you...</p>
+            </section>
+
+            <!-- Error Message -->
+            <section class="error-message" id="errorMessage" style="display: none;">
+                <div class="error-content">
+                    <span class="error-icon">⚠️</span>
+                    <p id="errorText"></p>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results" id="resultsSection" style="display: none;">
+                <!-- Full Coverage Results -->
+                <div class="results-group" id="fullCoverageSection">
+                    <h2 class="results-title">
+                        <span class="title-icon">✓</span>
+                        Full Coverage Available
+                        <span class="count-badge" id="fullCoverageCount">0</span>
+                    </h2>
+                    <p class="results-subtitle">Caregivers who can cover the entire shift without overtime</p>
+                    <div id="fullCoverageList" class="caregiver-list"></div>
+                </div>
+
+                <!-- Overtime Coverage Results -->
+                <div class="results-group" id="overtimeCoverageSection" style="display: none;">
+                    <h2 class="results-title">
+                        <span class="title-icon">⏰</span>
+                        Overtime Coverage
+                        <span class="count-badge overtime-badge" id="overtimeCoverageCount">0</span>
+                    </h2>
+                    <p class="results-subtitle">Caregivers who would need overtime to cover the shift</p>
+                    <div id="overtimeCoverageList" class="caregiver-list"></div>
+                </div>
+
+                <!-- No Results Message -->
+                <div class="no-results" id="noResults" style="display: none;">
+                    <span class="no-results-icon">📍</span>
+                    <h3>No Caregivers Found</h3>
+                    <p>No available caregivers found within 15 miles of your location for the selected schedule.</p>
+                    <p class="suggestion">Try adjusting your schedule requirements or search at a different location.</p>
+                </div>
+
+                <!-- Search Again Button -->
+                <button class="btn btn-secondary" id="searchAgainBtn">
+                    <span class="btn-text">Search Again</span>
+                </button>
+            </section>
         </main>
+
+        <footer>
+            <p>&copy; 2025 Caregiver Finder</p>
+        </footer>
     </div>
 
     <script src="/static/js/app.js"></script>
